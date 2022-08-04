@@ -1,4 +1,4 @@
-# Klasifikace popisků
+# respondent-label-classification
 
 V registru se nachází osoby, které nemají přiřazený jeden z cca 50 standardizovaných popisků. 
 Na základě nestandardizovaných popisků chceme takovým osobám přiřazovat jeden ze standardizovaných popisků.
@@ -9,6 +9,10 @@ Na základě nestandardizovaných popisků chceme takovým osobám přiřazovat 
 
 ## Postup
 
-1. na osobách se standardizovanými popisky natrénovat naïve Bayes model (využívající DFM)
+1. Na osobách se standardizovanými popisky natrénovat naïve Bayes model (využívající DFM)
 2. ?
 3. Profit
+
+## Authors
+
+- [Michael Škvrňák](https://github.com/skvrnami)

@@ -7,6 +7,16 @@ Na základě nestandardizovaných popisků chceme takovým osobám přiřazovat 
 `mluvčí` u osob, které mají popisek `mluvčí ___`, a opravuje překlepové popisky
 (tj. ty s Damerau-Levenshteinovou vzdáleností == 1).
 
+## TO DO:
+
+1. Add stemmer
+
+2. Implement Male/Female job name unification
+
+3. Better lemmanizator
+
+4. Missclick detection
+
 ## Postup
 
 1. Na osobách se standardizovanými popisky natrénovat naïve Bayes model (využívající DFM)

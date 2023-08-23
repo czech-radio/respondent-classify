@@ -1,23 +1,51 @@
 # respondent-classifier
 
-V registru se nachází osoby, které nemají přiřazený jeden z cca 50 standardizovaných popisků. 
-Na základě nestandardizovaných popisků chceme takovým osobám přiřazovat jeden ze standardizovaných popisků.
+## Motivace a cíl
 
-## TODO
+V registru se nachází osoby, které nemají přiřazený jeden z cca 50 standardizovaných popisků. Na základě nestandardizovaných popisků chceme takovým osobám přiřazovat jeden ze *standardizovaných popisků*.
 
-1. Add stemmer
-2. Implement Male/Female job name unification
-3. Better lemmanizator
-4. Missclick detection
+Soupis standardizovaných popisků:
+
+```text
+advokát', 'akademik', 'aktivista', 'blogger', 'byznys', 
+'celebrita', 'církev', 'europol', 'komentátor', 'kontrolor', 
+'kultura', 'léčitel', 'lobby', 'zdravotník', 'mluvčí', 'ngo', 
+'novinář', 'odborník', 'odbory', 'ostatní', 'ombudsman', 
+'ozbrojenec', 'politik', 'social', 'soudce', 'soudce_us', 
+'spolek', 'sport', 'starosta', 'stát_byznys', 'ttank', 
+'umělec', 'úředník', 'vyslanec', 'zaměstnavatel', 'zástupce', 
+'záchranář', 'média', 'mezinárodní'
+```
+
+## Instalace
+
+```shell
+pip install -r requirements.txt
+```
 
 ## Postup
 
-1. Na osobách se standardizovanými popisky natrénovat naïve Bayes model (využívající DFM)
-2. ?
-3. Profit
+- Vstupní data se nacházejí v `data/input`.
+- První krok je (před)připravit data pomocí notebooku `processing.ipynb`.
+- Druhý krok je tvorba a analýza modelu pro klasifikaci pomocí notebooku `analysing.ipynb`.
+- Třetí krok uložit model (matice) pomocí modulu `pickle`.
 
-## OLD
+Poté co máme model, můžeme vytvořit jednoduchou REST mikroslužbu.
 
-`pre-classification.R` - skript pro úpravu existujících popisků, doplňuje popisek
-`mluvčí` u osob, které mají popisek `mluvčí ___`, a opravuje překlepové popisky
-(tj. ty s Damerau-Levenshteinovou vzdáleností == 1).
+## Poznámky/Roadmap
+
+1. Problém: Sjednoť popisky v ženském a mužském tvaru např. `politik` a `politička`.
+   Řešení: Zřejmě podle slovníku, seznamu. Zkusíme se doptat na ÚJČ.
+
+3. Problém: Potřebujeme ideálně získat kořen slova/popisku abychom seskupili ty popisky (např. `politik` a `politické hnutí`), které odkazují na stejný základ.
+   Řešení: Použít nějaký stemmer nebo slovník.
+
+4. Problém: Potřebujeme lematizovat. Prozatím používáme MorphoDiTa.
+   Řešení: Lepší využít službu Geneea. Musíme napsat funkci pro zaslání popisků na tuto službu.
+
+5. Problém: Missclick/Grammar error detection.
+   Řešení: Nějaká služba/knihovna na autokorekci? Vlastní řešení?
+
+- [ ] Kolik máme unikátních popisků? cca 28 000
+- [ ] Kolik je z nich je překlep (missclick)?
+  

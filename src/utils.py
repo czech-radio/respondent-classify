@@ -3,6 +3,15 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
 
+def string_to_list(string: str) -> list:
+    """ Converts string of list into an actual list
+
+    :param string:
+    :return:
+    """
+    return ast.literal_eval(string)
+
+
 def to_bag_of_words(data: pd.Series) -> pd.DataFrame:
     """ Creates bag of words dataframe from the inputted column of word lists
 
@@ -10,7 +19,7 @@ def to_bag_of_words(data: pd.Series) -> pd.DataFrame:
     :return: bag_of_words dataframe created from the list
     """
     # converts the column into form of a list
-    data_as_lists = data.apply(ast.literal_eval)
+    data_as_lists = data.apply(string_to_list)
 
     vec = CountVectorizer()
     bag = vec.fit_transform(data_as_lists.apply(lambda x: ' '.join(x)))

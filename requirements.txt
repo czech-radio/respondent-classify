@@ -1,4 +1,5 @@
 pandas
 pandarallel
 matplotlib
-scikit-learnrequests
+scikit-learn
+requests

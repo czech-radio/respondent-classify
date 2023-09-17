@@ -11,6 +11,10 @@ def string_to_list(string: str) -> list:
     """
     return ast.literal_eval(string)
 
+def is_isnt(n: int) -> int:
+    if n:
+        return 1
+    return 0
 
 def to_bag_of_words(data: pd.Series, is_string: bool = True) -> pd.DataFrame:
     """ Creates bag of words dataframe from the inputted column of word lists
@@ -29,4 +33,6 @@ def to_bag_of_words(data: pd.Series, is_string: bool = True) -> pd.DataFrame:
     bag = vec.fit_transform(data_as_lists.apply(lambda x: ' '.join(x)))
 
     bag_of_words = pd.DataFrame.sparse.from_spmatrix(bag, columns=vec.get_feature_names_out())
+    bag_of_words = bag_of_words.map(is_isnt)
+    
     return bag_of_words

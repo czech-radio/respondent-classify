@@ -24,7 +24,7 @@ rm -rf lib/morphodita
 cd data
 curl --remote-name-all https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-4794{/czech-morfflex2.0-pdtc1.0-220710.zip}
 unzip czech-morfflex2.0-pdtc1.0-220710.zip
-mv czech-morfflex2.0-pdtc1.0-220710/czech-morfflex2.0-220710.dict morphodita_model.dict
+mv czech-morfflex2.0-pdtc1.0-220710 morphodita_model
 rm -rf czech-morfflex2.0-pdtc1.0-220710
 rm czech-morfflex2.0-pdtc1.0-220710.zip
 cd ..

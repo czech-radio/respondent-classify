@@ -125,6 +125,14 @@ def preprocess_base(column: pd.Series) -> pd.Series:
     column = remove_stop_words(column)
     return column
 
+def get_lemma(row: list) -> list:
+    if len(row) == 0:
+        return row
+    words = " ".join(row)
+    # print(words)
+    url = f'http://localhost:3000/analyze?data={words}&output=vertical&convert_tagset=strip_lemma_id'
+    response = requests.get(url)
+    return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]
 
 def get_row_roots(row: list) -> list:
     if len(row) == 0:
@@ -144,7 +152,9 @@ def preprocess_get_roots(column: pd.Series) -> pd.Series:
     column = preprocess_base(column)
     return get_roots(column)
 
+def get_lemmas(column: pd.Series) -> pd.Series:
+    return column.parallel_apply(get_lemma)
 
 def preprocess_lemmatize(column: pd.Series) -> pd.Series:
     column = preprocess_base(column)
-    return lemmatizate(column)
+    return get_lemmas(column)

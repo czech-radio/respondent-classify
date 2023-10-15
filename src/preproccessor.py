@@ -63,30 +63,6 @@ def remove_numbers(column: pd.Series) -> pd.Series:
     return column.apply(lambda words: [word for word in words if not has_numbers(word)])
 
 
-def lemmatizate_word(word: str) -> str:
-    word = bytes(word, encoding='utf-8')
-    p = subprocess.Popen("lib/majka -f data/majka.w-lt| head -n1 | cut -d ':' -f1",
-                         shell=True, stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE,
-                         stdin=subprocess.PIPE)
-    lemma, _ = p.communicate(input=word)
-    lemma = lemma.strip(b'\n')
-    if len(lemma) == 0:
-        lemma = word
-    return lemma.decode(encoding='utf-8')
-
-
-def lemmatizate_words(words: list) -> list:
-    lemmatized = []
-    for word in words:
-        lemmatized.append(lemmatizate_word(word))
-    return lemmatized
-
-
-def lemmatizate(column: pd.Series) -> pd.Series:
-    return column.apply(lemmatizate_words)
-
-
 def apply_pipeline(column: pd.Series, pipeline: list) -> pd.Series:
     processed = column.copy()
     for func in pipeline:

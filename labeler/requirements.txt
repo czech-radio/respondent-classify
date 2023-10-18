@@ -1,0 +1,5 @@
+pandas
+pandarallel
+matplotlib
+scikit-learn
+requests

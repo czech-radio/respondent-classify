@@ -1,0 +1,6 @@
+flask[dotenv]>=3.0.0
+
+[dev]
+black
+isort
+pytest

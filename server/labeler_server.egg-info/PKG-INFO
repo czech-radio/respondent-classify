@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: labeler-server
+Version: 0.10.0
+Requires-Dist: flask[dotenv]>=3.0.0
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: pytest; extra == "dev"

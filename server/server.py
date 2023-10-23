@@ -1,10 +1,16 @@
 import flask
+from src.labeler import Labeler
+
+POLITIC_LABELER = Labeler.get_politic_labeler()
+NON_POLITIC_LABELER = Labeler.get_non_politic_labeler()
 
 
-def label_data():
-    # import labeler
-    # Here you should call the machine learning model.
-    ...
+def label_data(data: list, is_politic: bool):
+    if is_politic:
+        return POLITIC_LABELER.label(data)
+    else:
+        return NON_POLITIC_LABELER.label(data)
+
 
 def create_app(config = None):
     app = flask.Flask(f"{__name__}")
@@ -13,10 +19,13 @@ def create_app(config = None):
     def index():
         return "Hello from index!"
 
-    @app.route("/labels")
-    def labels():
-        # TODO: Call the `lable_data()`.
-        return "TODO"
+    @app.route("/test/<pls>")
+    def test(pls):
+        print(pls)
+        return pls
+    @app.route("/labels/<words>/<int:is_politic>")
+    def labels_politic(words: str, is_politic):
+        return str(label_data(words.split(','), is_politic))
 
     @app.route("/status")
     def status():

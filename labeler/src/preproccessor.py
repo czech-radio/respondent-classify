@@ -1,7 +1,6 @@
 import pandas as pd
 
 import json
-import subprocess
 import requests
 from pandarallel import pandarallel
 

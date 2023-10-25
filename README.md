@@ -10,7 +10,7 @@
 ### Návrhy na změny
 
 - Adresář `server` bych přejmenoval na `service`.
-- Vyřešme hard-coded volání např. `localhost:8000` pro službu na lematizaci.
+- Vyřešme *hard-coded* volání např. `localhost:8000` pro službu na lematizaci.
 - Rozděl trénování a "používání" na dva balíky.
 
 ### Malá rekapitulace projektu
@@ -29,20 +29,20 @@ Jde vlastně o tři samostatné projekty/moduly:
    - https://netflixtechblog.com/notebook-innovation-591ee3221233
    - https://netflixtechblog.com/scheduling-notebooks-348e6c14cfd6
     
-2. Knihovna pro klasifikace.
+2. Knihovna pro klasifikaci.
 
    Jde v podstatě o jednu velkou funkci, která bere natrénovaný model, vstupní data a vrací odpověď v podobě klasifikační třídy.
    Prakticky jde o Python balík, který se importuje do aplikace, skrze kterou přichází vstupní data viz bod 3.
 
 3. Služba pro klasifikaci.
 
-   Tato služba je aplikace zajišťující požadovanou funkcionalitu pro uživatele. Její cílem je přijmout vstupní data, v našem případě přes HTTP REST API a
+   Tato služba je aplikace zajišťující požadovanou funkcionalitu pro koncovéhp uživatele. Její cílem je přijmout vstupní data, v našem případě přes HTTP REST API a
    vrátit odpověď v podobě klasifikační třídy. Důvod proč mít samostatně službu a nepoužívat knihovnu (2) přímo je, že nás odstiňuje od manipulaci s modelem
-   a jinými low-level záležitostmi. Takovou službu můžeme přes HTTP používat z jakéhokoliv jiného programu nebo nástroje.
+   a jinými *low-level* záležitostí. Takovou službu můžeme přes HTTP používat z jakéhokoliv jiného programu nebo nástroje.
 
-   Tato služba může používat a volat i jiné služby např. službu pro lematizaci/stamatizaci. je otázka, kam tyto služby "dát" v kódu.
-   Mají být tato volání osučástí knihovny nebo až tato služba je má jako závislost předávat knihovně. Nebo dokonce má knihovna dostat už
+   Tato služba může používat a volat i jiné služby např. službu pro lematizaci/stamatizaci. Je otázka, do jaké části projektu tyto služby patří.
+   Mají být tato volání součástí knihovny nebo až tato služba je má jako závislost předávat knihovně? Nebo dokonce má knihovna dostat už
    lematizované/stematizované slovo (token)? Možná že ano. Pojďme se nad tím zamyslet. Jasné je, že *hard-coded* volání např. na `localhost:8080` není
    ideální řešení do budocuna.
 
-   Všechny tyto služby můžeme uvažovat, že běží b kontejnerech nabo že je vlastní třetí strana a nemáme k nim přístup jinak než přes HTTP dotaz.
+   Všechny tyto služby můžeme uvažovat, že běží v kontejnerech nabo že je vlastní třetí strana a nemáme k nim přístup jinak než přes HTTP dotaz.

@@ -4,6 +4,8 @@ import json
 import requests
 from pandarallel import pandarallel
 
+__all__ = ["WHAT TO EXPORT"]
+
 pandarallel.initialize()
 
 zkratky = {'zast': 'zastupitel', 'kand': 'kandidát', 'posl': 'poslanec'}
@@ -77,8 +79,8 @@ def lower_l(column: pd.Series) -> pd.Series:
     return column.apply(lambda x: [a.lower() for a in x])
 
 
-def correct_word(word: str) -> str:
-    url = 'http://localhost/correct?data=' + word
+def correct_word(word: str, port="8000") -> str:
+    url = f'http://localhost:{port}/correct?data=' + word
     response = requests.get(url)
     return response.json()['result']
 

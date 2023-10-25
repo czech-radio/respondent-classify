@@ -1,0 +1,8 @@
+README.md
+setup.py
+src/labeler_server.egg-info/PKG-INFO
+src/labeler_server.egg-info/SOURCES.txt
+src/labeler_server.egg-info/dependency_links.txt
+src/labeler_server.egg-info/entry_points.txt
+src/labeler_server.egg-info/requires.txt
+src/labeler_server.egg-info/top_level.txt

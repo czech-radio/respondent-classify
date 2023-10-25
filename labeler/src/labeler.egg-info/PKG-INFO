@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: labeler
+Version: 0.10.0
+Requires-Dist: pandas
+Requires-Dist: pandarallel
+Requires-Dist: requests
+Requires-Dist: scikit-learn
+Provides-Extra: dev
+Requires-Dist: matplotlib; extra == "dev"
+Requires-Dist: pytest; extra == "dev"

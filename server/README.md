@@ -12,8 +12,16 @@ This is a *labeler service* build on Flask WSGI framework.
 
 **Create and activate virtual environment before installation!**
 
+For development install package dependencies with command bellow.
+
 ```shell
-pip install -e .[dev] 
+pip install -r requirements.txt
+```
+
+Install package in editable mode.
+
+```shell
+pip install -e .
 ```
 
 TODO Explain enviroment variables used with Flask.
@@ -27,17 +35,11 @@ Run the server with debug mode on.
 1. Call the Flask
 
     ```shell
-    flask --app server run -p 8081
+    flask --app server run -p 8081 (obsolete?)
     ```
 
-2. Call the script (module).
+2. Call the console application defined in `setup.py`.
 
     ```shell
-    python server.py
-    ```
-
-3. Call the console application defined in `setup.py`.
-
-    ```shell
-    
+    labeler-server
     ```

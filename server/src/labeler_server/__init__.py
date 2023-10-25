@@ -1,5 +1,7 @@
 import flask
-from src.labeler import Labeler
+
+from labeler import Labeler
+
 
 POLITIC_LABELER = Labeler.get_politic_labeler()
 NON_POLITIC_LABELER = Labeler.get_non_politic_labeler()
@@ -19,10 +21,16 @@ def create_app(config = None):
     def index():
         return "Hello from index!"
 
-    @app.route("/test/<pls>")
-    def test(pls):
-        print(pls)
-        return pls
+    @app.route("/test")
+    def test():
+        from flask import request
+        name = request.args.get('name') # How to get query parameter.
+        if name is not None:
+            return name
+        else:
+            return "Please, send me a name!"
+    
+
     @app.route("/labels/<words>/<int:is_politic>")
     def labels_politic(words: str, is_politic):
         return str(label_data(words.split(','), is_politic))
@@ -37,6 +45,7 @@ def create_app(config = None):
 def main() -> None:
     app = create_app()
     app.run(host="127.0.0.1", port="8081") # HARD CODED
+
 
 if __name__ == "__main__":
     app = create_app()

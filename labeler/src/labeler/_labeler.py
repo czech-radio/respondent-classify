@@ -2,7 +2,7 @@ import pickle
 
 import numpy as np
 
-from src.preproccessor import preprocess_get_roots
+from labeler._preproccessor import preprocess_get_roots
 import pandas as pd
 
 MODELS_PATH = 'model/'
@@ -48,8 +48,6 @@ class Labeler:
     @staticmethod
     def get_politic_labeler():
         return Labeler(*Labeler._load_model(POLITIC_MODEL_PATH, POLITIC_COLUMNS_PATH))
-
-
 
 
 def main():

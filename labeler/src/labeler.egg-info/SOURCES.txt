@@ -1,0 +1,7 @@
+README.md
+setup.py
+src/labeler.egg-info/PKG-INFO
+src/labeler.egg-info/SOURCES.txt
+src/labeler.egg-info/dependency_links.txt
+src/labeler.egg-info/requires.txt
+src/labeler.egg-info/top_level.txt

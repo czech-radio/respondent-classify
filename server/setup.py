@@ -3,16 +3,13 @@ from setuptools import setup, find_packages
 setup(
     name="labeler-server",
     version="0.10.0",
-    py_module=["server"],
-    # packages=find_packages(exclude=["docs", "tests"]),
+    package_dir={"": "src"},
+    packages=find_packages(exclude=["docs", "tests"]),
     install_requires=["flask[dotenv]>=3.0.0"],
-    extras_require={
-        "dev": ["black", "isort", "pytest"]
-    },
+    extras_require={},
     entry_points={
         "console_scripts": [
-            "labeler-server = server:main",
+            "labeler-server = labeler_server.__init__:main",
         ]
     }
-    
 )

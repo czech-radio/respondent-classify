@@ -3,11 +3,6 @@
 - labeler: The library to train machine learning model for classification.
 - server: The web application to serve trained model over HTTP REST API.
 
-## Problems
-
-- Hard coded services e.g. `localhost:8000` for lematization etc.
-- Separate domain logic and services.
-
 ---
 
 ## Poznámky
@@ -15,6 +10,8 @@
 ### Návrhy na změny
 
 - Adresář `server` bych přejmenoval na `service`.
+- Vyřešme hard-coded volání např. `localhost:8000` pro službu na lematizaci.
+- Rozděl trénování a "používání" na dva balíky.
 
 ### Malá rekapitulace projektu
 

@@ -1,4 +1,4 @@
-                            Stemmer for Czech
+# Stemmer for Czech Language
 
 Copyright © 2010 Luís Gomes <luismsgomes@gmail.com>.
 
@@ -22,4 +22,3 @@ How to use the Java program:
 How to use the Python program:
     LC_ALL=UTF-8 ./czech_stemmer.py light < example.txt > light.txt
     LC_ALL=UTF-8 ./czech_stemmer.py aggressive < example.txt > aggressive.txt
-

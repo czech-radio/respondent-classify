@@ -67,24 +67,24 @@ všimnout několik specifických vlastností. Nejprve, přibližně 75 %
 záznamů je bez politické příslušnosti, zatímco zbytek patří mezi členy
 jednotlivých stran:
 
-<img src="data/imgs/01.png"
+<img src="assets/01.png"
 style="width:4.1598in;height:4.0898in" />Dále pouze málá část záznamů
 nemá žadné standartní označení, více jak 75 % označení má
 
-<img src="data/imgs/02.png"
+<img src="assets/02.png"
 style="width:4.7898in;height:4.0898in" />
 
 Toto ovšem začne být zajímavější pro rozdělení podle politické
 příslušnosti, protože jak je možno vidět, zatímco valná většína
 politicky nezařazených lidí má označení strany.
 
-<img src="data/imgs/03.png"
+<img src="assets/03.png"
 style="width:5.1098in;height:4.0898in" />
 
 U lidí, kteří jsou členy některé strany, je téměř polovina bez
 standartního označení
 
-<img src="data/imgs/04.png"
+<img src="assets/04.png"
 style="width:3.8898in;height:4.0898in" />Jak lze vidět lidé v
 politických stranách mají vyšší potřebu označení než lidé mimo strany.
 

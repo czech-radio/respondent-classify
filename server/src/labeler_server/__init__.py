@@ -1,5 +1,5 @@
 import flask
-
+from flask import request
 from labeler import Labeler
 
 
@@ -23,16 +23,18 @@ def create_app(config = None):
 
     @app.route("/test")
     def test():
-        from flask import request
         name = request.args.get('name') # How to get query parameter.
         if name is not None:
             return name
         else:
             return "Please, send me a name!"
-    
 
-    @app.route("/labels/<words>/<int:is_politic>")
-    def labels_politic(words: str, is_politic):
+    @app.route("/labels/<words>")
+    def labels_politic(words: str):
+        # query should be /lablels/words?is_politic=[1/0]
+
+        words = words.split(',')
+        is_politic = int(request.args.get('is_politic', default=0))
         return str(label_data(words.split(','), is_politic))
 
     @app.route("/status")

@@ -1,11 +1,26 @@
-# Labeler
+# respondent-label-classifier
+
+**A REST service to classify respondents.**
 
 - labeler: The library to train machine learning model for classification.
 - server: The web application to serve trained model over HTTP REST API.
 
+## Installation
+
+[[How to install project.]]
+
+
+## Usage 
+
+[[How use project.]]
+
+###  Development
+
+[[How to prepare project for development.]]
+
 ---
 
-## Poznámky
+## Poznámky (cs)
 
 ### Návrhy na změny
 

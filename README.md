@@ -1,4 +1,4 @@
-# respondent-label-classifier
+# respondent-classifier
 
 **A REST service to classify respondents.**
 

@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir build && cd build || exit
 git clone git@github.com:ufal/korektor.git
 cd korektor/src || exit

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 mkdir build && cd build || exit
 git clone git@github.com:ufal/morphodita.git
 cd morphodita/src || exit

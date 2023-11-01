@@ -1,12 +1,14 @@
 import flask
+import os
 from flask import request
 from labeler import Labeler
 
-KOREKTOR_HOST = 'localhost'
-KOREKTOR_PORT = 8000
 
-MORPHODITA_HOST = 'localhost'
-MORPHODITA_PORT = 3000
+KOREKTOR_HOST = os.getenv('KOREKTOR_HOST') or 'localhost'
+KOREKTOR_PORT = os.getenv('KOREKTOR_PORT') or 8000
+
+MORPHODITA_HOST = os.getenv('MORPHODITA_HOST') or 'localhost'
+MORPHODITA_PORT = os.getenv('MORPHODITA_PORT') or 3000
 
 
 POLITIC_LABELER = Labeler.get_politic_labeler(KOREKTOR_HOST, KOREKTOR_PORT,

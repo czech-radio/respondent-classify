@@ -2,9 +2,18 @@ import flask
 from flask import request
 from labeler import Labeler
 
+KOREKTOR_HOST = 'localhost'
+KOREKTOR_PORT = 8000
 
-POLITIC_LABELER = Labeler.get_politic_labeler()
-NON_POLITIC_LABELER = Labeler.get_non_politic_labeler()
+MORPHODITA_HOST = 'localhost'
+MORPHODITA_PORT = 3000
+
+
+POLITIC_LABELER = Labeler.get_politic_labeler(KOREKTOR_HOST, KOREKTOR_PORT,
+                                              MORPHODITA_HOST, MORPHODITA_PORT)
+
+NON_POLITIC_LABELER = Labeler.get_non_politic_labeler(KOREKTOR_HOST, KOREKTOR_PORT,
+                                                      MORPHODITA_HOST, MORPHODITA_PORT)
 
 
 def label_data(data: list, is_politic: bool):

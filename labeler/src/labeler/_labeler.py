@@ -2,7 +2,7 @@ import pickle
 
 import numpy as np
 
-from labeler._preproccessor import preprocess_get_roots
+from labeler._preproccessor import RootsPreprocessor
 import pandas as pd
 
 MODELS_PATH = 'model/'
@@ -13,13 +13,14 @@ POLITIC_COLUMNS_PATH = MODELS_PATH + 'pol_columns'
 
 
 class Labeler:
-    def __init__(self, model, columns):
+    def __init__(self, model, columns, preprocessor):
         self.model = model
         self.columns = columns
+        self.preprocessor = preprocessor
 
     def label(self, words: list) -> int:
         words = pd.Series(words)
-        words = preprocess_get_roots(words)
+        words = self.preprocessor.transform(words)
         words = words[0]
         words_row = np.zeros_like(self.columns)
 
@@ -42,25 +43,26 @@ class Labeler:
         return model, columns
 
     @staticmethod
-    def get_non_politic_labeler():
-        return Labeler(*Labeler._load_model(NON_POLITIC_MODEL_PATH, NON_POLITIC_COLUMNS_PATH))
+    def get_non_politic_labeler(korektor_host: str, korektor_port: str | int,
+                                morphodita_host: str, morphodita_port: str | int):
+        return Labeler(*Labeler._load_model(NON_POLITIC_MODEL_PATH, NON_POLITIC_COLUMNS_PATH),
+                       RootsPreprocessor(korektor_host, korektor_port, morphodita_host, morphodita_port))
 
     @staticmethod
-    def get_politic_labeler():
-        return Labeler(*Labeler._load_model(POLITIC_MODEL_PATH, POLITIC_COLUMNS_PATH))
+    def get_politic_labeler(korektor_host: str, korektor_port: str | int,
+                            morphodita_host: str, morphodita_port: str | int):
+        return Labeler(*Labeler._load_model(POLITIC_MODEL_PATH, POLITIC_COLUMNS_PATH),
+                       RootsPreprocessor(korektor_host, korektor_port, morphodita_host, morphodita_port))
 
 
 def main():
-    model_file = open('model/non_pol.model', 'rb')
-    model = pickle.load(model_file)
-    columns_file = open('model/non_pol_columns', 'rb')
-    columns = pickle.load(columns_file)
-    labeler = Labeler.get_politic_labeler()
-    print(labeler.label(['umělec']))
+
+    labeler = Labeler.get_politic_labeler('localhost', 8080,
+                                          'localhost', 3000)
+    print(labeler.label(['europoslanec']))
     print(labeler.label(['zdravotník']))
     print(labeler.label(['řada', 'vzít']))
-    columns_file.close()
-    model_file.close()
+
 
 
 if __name__ == '__main__':

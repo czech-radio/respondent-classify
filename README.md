@@ -9,24 +9,23 @@
 
 [[How to install project.]]
 
-
-## Usage 
+## Usage
 
 [[How use project.]]
 
-###  Development
+### Development
 
 [[How to prepare project for development.]]
 
----
+```shell
+python -m pip install -r requirements.txt
+```
 
 ## Poznámky (cs)
 
 ### Návrhy na změny
 
-- Adresář `server` bych přejmenoval na `service`.
-- Vyřešme *hard-coded* volání např. `localhost:8000` pro službu na lematizaci.
-- Rozděl trénování a "používání" na dva balíky.
+- [ ] Rozděl trénování a "používání" na dva balíky.
 
 ### Malá rekapitulace projektu
 
@@ -40,10 +39,10 @@ Jde vlastně o tři samostatné projekty/moduly:
    kontejneru ve kterém poběží služba (*service*) paracující s tímto modelem nebo může být uložen na serveru. Toto je nutné ještě
    rozhodnout. Tato část může být realizováná v podobě notebooků bnebo jednoduché aplikace s konzolovým rozhraním (CLI) -- což by
    určitě zjednodušilo opakované použití  -- přeci jen notebooky jsou horší na zprávu -- ale i to se dá nějak nastavit a udržovat viz
-   
-   - https://netflixtechblog.com/notebook-innovation-591ee3221233
-   - https://netflixtechblog.com/scheduling-notebooks-348e6c14cfd6
-    
+
+   - <https://netflixtechblog.com/notebook-innovation-591ee3221233>
+   - <https://netflixtechblog.com/scheduling-notebooks-348e6c14cfd6>
+
 2. Knihovna pro klasifikaci.
 
    Jde v podstatě o jednu velkou funkci, která bere natrénovaný model, vstupní data a vrací odpověď v podobě klasifikační třídy.

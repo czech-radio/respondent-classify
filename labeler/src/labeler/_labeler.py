@@ -2,7 +2,7 @@ import pickle
 
 import numpy as np
 
-from labeler._preproccessor import RootsPreprocessor
+from labeler._preproccessor import RootsPreprocessor, Preprocessor
 import pandas as pd
 
 MODELS_PATH = 'model/'
@@ -13,7 +13,7 @@ POLITIC_COLUMNS_PATH = MODELS_PATH + 'pol_columns'
 
 
 class Labeler:
-    def __init__(self, model, columns, preprocessor):
+    def __init__(self, model, columns, preprocessor: Preprocessor):
         self.model = model
         self.columns = columns
         self.preprocessor = preprocessor

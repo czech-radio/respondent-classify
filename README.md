@@ -12,6 +12,27 @@
 ## Usage
 
 [[How use project.]]
+Firstly services in folder service must be built if you are running them for the first time.
+```
+[SERVICE_PATH]/build.sh
+```
+for example:
+```
+services/morphodita/build.sh
+```
+
+And than all services should be run with the usage of run.sh script.
+
+```
+[SERVICE_PATH]/run.sh [PORT]
+```
+
+For example:
+```
+./services/korektor/run.sh
+```
+
+For the use of of program required services are: morphodita, korektor
 
 ### Development
 

@@ -6,5 +6,5 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(exclude=["docs", "tests"]),
     install_requires=["flask"],
-    extras_require={}
+    extras_require={},
 )

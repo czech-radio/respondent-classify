@@ -46,7 +46,7 @@ def create_app(config = None):
 
         words = words.split(',')
         is_politic = int(request.args.get('is_politic', default=0))
-        return str(label_data(words.split(','), is_politic))
+        return str(label_data(words, is_politic))
 
     @app.route("/status")
     def status():

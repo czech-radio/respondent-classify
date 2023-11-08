@@ -102,7 +102,7 @@ class BasePreprocessor:
         self.korektor_port = korektor_port
 
     def fit(self, column: pd.Series):
-        # just to filll the interface
+        # Just to fill the interface.
         return
 
     def transform(self, column: pd.Series) -> pd.Series:
@@ -174,7 +174,6 @@ def get_lemma(row: list, host: str, port: str | int) -> list:
     if len(row) == 0:
         return row
     words = " ".join(row)
-    # print(words)
     url = f'http://{host}:{port}/analyze?data={words}&output=vertical&convert_tagset=strip_lemma_id'
     response = requests.get(url)
     return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]
@@ -184,7 +183,6 @@ def get_row_roots(row: list, host: str, port: str | int) -> list:
     if len(row) == 0:
         return row
     words = " ".join(row)
-    # print(words)
     url = f'http://{host}:{port}/analyze?data={words}&derivation=root&output=vertical&convert_tagset=strip_lemma_id'
     response = requests.get(url)
     return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]

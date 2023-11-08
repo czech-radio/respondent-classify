@@ -1,4 +1,0 @@
-Metadata-Version: 2.1
-Name: labeler-server
-Version: 0.10.0
-Requires-Dist: flask[dotenv]>=3.0.0

@@ -35,11 +35,5 @@ Run the server with debug mode on.
 1. Call the Flask
 
     ```shell
-    flask --app server run -p 8081 (obsolete?)
-    ```
-
-2. Call the console application defined in `setup.py`.
-
-    ```shell
-    labeler-server
+    flask --app server run -p 8081
     ```

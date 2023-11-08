@@ -11,10 +11,12 @@ def string_to_list(string: str) -> list:
     """
     return ast.literal_eval(string)
 
+
 def is_isnt(n: int) -> int:
     if n:
         return 1
     return 0
+
 
 def to_bag_of_words(data: pd.Series, is_string: bool = True) -> pd.DataFrame:
     """ Creates bag of words dataframe from the inputted column of word lists

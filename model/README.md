@@ -1,6 +1,5 @@
 # machine learning model
 
-
 Soupis standardizovaných popisků:
 
 ```text

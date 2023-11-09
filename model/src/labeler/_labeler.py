@@ -53,17 +53,3 @@ class Labeler:
                             morphodita_host: str, morphodita_port: str | int):
         return Labeler(*Labeler._load_model(POLITIC_MODEL_PATH, POLITIC_COLUMNS_PATH),
                        RootsPreprocessor(korektor_host, korektor_port, morphodita_host, morphodita_port))
-
-
-def main():
-
-    labeler = Labeler.get_politic_labeler('localhost', 8080,
-                                          'localhost', 3000)
-    print(labeler.label(['europoslanec']))
-    print(labeler.label(['zdravotník']))
-    print(labeler.label(['řada', 'vzít']))
-
-
-
-if __name__ == '__main__':
-    main()

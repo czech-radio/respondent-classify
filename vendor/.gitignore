@@ -1,0 +1,6 @@
+data/
+build/
+*.log
+# executables
+korektor_server
+morphodita_server

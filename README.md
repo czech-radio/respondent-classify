@@ -2,47 +2,42 @@
 
 **A REST service to classify respondents.**
 
-- labeler: The library to train machine learning model for classification.
+## Overview
+
+This is a monorepository which consists of these parts:
+
+- models: The package to train and apply machine learning model.
 - server: The web application to serve trained model over HTTP REST API.
+- vendor: The third party software *morphodita* and *korektor* used for library.
 
-## Installation
+## Deployment
 
-[[How to install project.]]
+**Prerequisities:** For the use of of program required services are: morphodita, korektor
 
-## Usage
-
-[[How use project.]]
 Firstly services in folder service must be built if you are running them for the first time.
-```
-cd [SERVICE_PATH]
-.build.sh
-```
-for example:
-```
-cd service/morphodita
-.build.sh
+
+```shell
+cd vendor/morphodita 
+source build.sh
+cd -
 ```
 
-And than all services should be run with the usage of run.sh script.
-
-```
-[SERVICE_PATH]/run.sh [PORT]
-```
-
-For example:
-```
-./services/korektor/run.sh 8080
+```shell
+cd vendor/korektor 
+source build.sh
+cd -
 ```
 
-For the use of of program required services are: morphodita, korektor
+Than all services should be started with `run.sh` script.
+
+```shell
+. vendor/korektor/run.sh 8080
+. vendor/morphodita/run.sh 8080
+```
 
 ### Development
 
-[[How to prepare project for development.]]
-
-```shell
-python -m pip install -r requirements.txt
-```
+See [server](server/README.md) and [training](training/README.md). 
 
 ## Poznámky (cs)
 

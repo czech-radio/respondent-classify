@@ -1,8 +1,5 @@
 # machine learning model
 
-## Motivace a cíl
-
-V registru se nachází osoby, které nemají přiřazený jeden z cca 50 standardizovaných popisků. Na základě nestandardizovaných popisků chceme takovým osobám přiřazovat jeden ze *standardizovaných popisků*.
 
 Soupis standardizovaných popisků:
 
@@ -32,18 +29,18 @@ pip install -r requirements.txt
 
 Poté co máme model, můžeme vytvořit jednoduchou REST mikroslužbu.
 
-## Poznámky/Roadmap
+## Poznámky
 
 1. Problém: Sjednoť popisky v ženském a mužském tvaru např. `politik` a `politička`.
    Řešení: Zřejmě podle slovníku, seznamu. Zkusíme se doptat na ÚJČ.
 
-3. Problém: Potřebujeme ideálně získat kořen slova/popisku abychom seskupili ty popisky (např. `politik` a `politické hnutí`), které odkazují na stejný základ.
+2. Problém: Potřebujeme ideálně získat kořen slova/popisku abychom seskupili ty popisky (např. `politik` a `politické hnutí`), které odkazují na stejný základ.
    Řešení: Použít nějaký stemmer nebo slovník.
 
-4. Problém: Potřebujeme lematizovat. Prozatím používáme MorphoDiTa.
+3. Problém: Potřebujeme lematizovat. Prozatím používáme MorphoDiTa.
    Řešení: Lepší využít službu Geneea. Musíme napsat funkci pro zaslání popisků na tuto službu.
 
-5. Problém: Missclick/Grammar error detection.
+4. Problém: Missclick/Grammar error detection.
    Řešení: Nějaká služba/knihovna na autokorekci? Vlastní řešení?
 
 - [ ] Kolik máme unikátních popisků? cca 28 000

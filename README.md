@@ -1,20 +1,24 @@
 # respondent-classifier
 
-**A REST service to classify respondents.**
+**A REST service to classify respondents based on their labels.**
+
+The register contains people who do not have one of the approximately 50 standardized labels assigned to them. On the basis of non-standardized labels, we want to assign one of the *standardized labels* to such persons.
 
 ## Overview
 
 This is a monorepository which consists of these parts:
 
-- models: The package to train and apply machine learning model.
-- server: The web application to serve trained model over HTTP REST API.
-- vendor: The third party software *morphodita* and *korektor* used for library.
+|directory|description|
+|----|-------|
+|model| Train machine learning model.
+|server| Serve model over HTTP REST.
+|vendor| The third party software HTTP REST services.
 
 ## Deployment
 
 **Prerequisities:** For the use of of program required services are: morphodita, korektor
 
-Firstly services in folder service must be built if you are running them for the first time.
+At first, external services in the `vendor` directory must be built before you are running them for the first time.
 
 ```shell
 cd vendor/morphodita 

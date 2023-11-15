@@ -5,7 +5,7 @@ import requests
 from typing import Protocol
 from pandarallel import pandarallel
 
-__all__ = ["RootsPreprocessor", "Preprocessor"]
+__all__ = ["RootsPreprocessor", "LemmaPreprocessor", "Preprocessor"]
 
 pandarallel.initialize()
 
@@ -80,15 +80,32 @@ def lower(column: pd.Series) -> pd.Series:
 def lower_l(column: pd.Series) -> pd.Series:
     return column.apply(lambda x: [a.lower() for a in x])
 
+# Morphodita helper functions
 
-def correct_word(word: str, host: str, port: str | int) -> str:
-    url = f'http://{host}:{port}/correct?data={word}'
+def get_lemma(row: list, service_url: str) -> list:
+    if len(row) == 0:
+        return row
+    words = " ".join(row)
+    url = f'{service_url}/analyze?data={words}&output=vertical&convert_tagset=strip_lemma_id'
     response = requests.get(url)
-    return response.json()['result']
+    return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]
 
 
-def correct_grammar(column: pd.Series, host: str, port: str | int) -> pd.Series:
-    return column.parallel_apply(lambda row: [correct_word(word, host, port) for word in row])
+def get_row_roots(row: list, service_url: str) -> list:
+    if len(row) == 0:
+        return row
+    words = " ".join(row)
+    url = f'{service_url}/analyze?data={words}&derivation=root&output=vertical&convert_tagset=strip_lemma_id'
+    response = requests.get(url)
+    return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]
+
+
+def get_roots(column: pd.Series, service_url: str) -> pd.Series:
+    return column.parallel_apply(lambda row : get_row_roots(row, service_url))
+
+
+def get_lemmas(column: pd.Series, service_url: str) -> pd.Series:
+    return column.parallel_apply(get_lemma, args=(service_url))
 
 
 class Preprocessor(Protocol):
@@ -96,14 +113,20 @@ class Preprocessor(Protocol):
         pass
 
 
-class BasePreprocessor:
-    def __init__(self, korektor_host, korektor_port) -> None:
-        self.korektor_host = korektor_host
-        self.korektor_port = korektor_port
+class _BasePreprocessor:
+    def __init__(self, korektor_url) -> None:
+        self.korektor_url = korektor_url
 
     def fit(self, column: pd.Series):
         # Just to fill the interface.
         return
+    
+    def _correct_grammar(self, column: pd.Series, service_url: str) -> pd.Series:        
+        
+        def _correct_word(word: str, service_url: str) -> str:
+            return requests.get(f'{service_url}/correct?data={word}').json()['result']
+        
+        return column.parallel_apply(lambda row: [self._correct_word(word, service_url) for word in row])
 
     def transform(self, column: pd.Series) -> pd.Series:
         column = remove_interpunctions(column)
@@ -113,7 +136,7 @@ class BasePreprocessor:
         column = unify_parties(column)
         column = remove_shortened_words(column)
         column = remove_numbers(column)
-        column = correct_grammar(column, self.korektor_host, self.korektor_port)
+        column = self._correct_grammar(column, self.korektor_url)
         column = lower_l(column)
         column = remove_stop_words(column)
         return column
@@ -123,74 +146,24 @@ class BasePreprocessor:
         return self.transform(column)
 
 
-class MorphoditaPreprocessor(BasePreprocessor):
+class RootsPreprocessor(_BasePreprocessor):
     """Base class for morphodita based prepreprocesing, for example Roots or Lemmas"""
-    def __init__(self, korektor_host: str,  korektor_port: str | int, morphodita_host: str, morphodita_port: str | int):
-        super().__init__(korektor_host, korektor_port)
-        self.morphodita_host = morphodita_host
-        self.morphodita_port = morphodita_port
+    def __init__(self, korektor_url: str, morphodita_url: str):
+        super().__init__(korektor_url=korektor_url)
+        self.morphodita_url = morphodita_url
 
     def transform(self, column: pd.Series) -> pd.Series:
         column = super().transform(column)
-        return column
+        return get_roots(column, service_url=self.morphodita_url)
 
 
-class RootsPreprocessor(MorphoditaPreprocessor):
-    def __init__(self, *args):
-        super().__init__(*args)
+class LemmaPreprocessor(_BasePreprocessor):
 
-    def transform(self, column: pd.Series) -> pd.Series:
-        column = super().transform(column)
-        return get_roots(column, self.morphodita_host, self.morphodita_port)
-
-
-class LemmaPreprocessor(MorphoditaPreprocessor):
+    def __init__(self, korektor_url: str, morphodita_url: str):
+        super().__init__(korektor_url=korektor_url)
+        self.morphodita_url = morphodita_url
 
     def transform(self, column: pd.Series) -> pd.Series:
         column = super().transform(column)
-        return get_lemmas(column, self.morphodita_host, self.morphodita_port)
+        return get_lemmas(column, service_url=self.morphodita_url)
 
-
-"""
-Commented out, until Preprocessor classes are fully tested
-
-
-def preprocess_base(column: pd.Series) -> pd.Series:
-    column = remove_interpunctions(column)
-    column = split_into_words(column)
-    column = remove_empty(column)
-    column = lower_l(column)
-    column = unify_parties(column)
-    column = remove_shortened_words(column)
-    column = remove_numbers(column)
-    column = correct_grammar(column)
-    column = lower_l(column)
-    column = remove_stop_words(column)
-    return column
-"""
-
-
-def get_lemma(row: list, host: str, port: str | int) -> list:
-    if len(row) == 0:
-        return row
-    words = " ".join(row)
-    url = f'http://{host}:{port}/analyze?data={words}&output=vertical&convert_tagset=strip_lemma_id'
-    response = requests.get(url)
-    return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]
-
-
-def get_row_roots(row: list, host: str, port: str | int) -> list:
-    if len(row) == 0:
-        return row
-    words = " ".join(row)
-    url = f'http://{host}:{port}/analyze?data={words}&derivation=root&output=vertical&convert_tagset=strip_lemma_id'
-    response = requests.get(url)
-    return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]
-
-
-def get_roots(column: pd.Series, roots_host, roots_port) -> pd.Series:
-    return column.parallel_apply(lambda row : get_row_roots(row, roots_host, roots_port))
-
-
-def get_lemmas(column: pd.Series, host: str, port: str | int) -> pd.Series:
-    return column.parallel_apply(get_lemma, args=(host, port))

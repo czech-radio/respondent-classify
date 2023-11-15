@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
 
-print(find_packages(exclude=["docs", "tests"]))
 setup(
     name="labeler",
-    version="0.10.0",
+    version="0.11.0",
     packages=find_packages(exclude=["docs", "tests"]),
     package_dir={"": "src"},
     install_requires=["pandas", "pandarallel", "requests", "scikit-learn"],

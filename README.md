@@ -14,7 +14,11 @@ This is a monorepository which consists of these parts:
 |server| Serve model over HTTP REST.
 |vendor| The third party software HTTP REST services.
 
-## Deployment
+### Development
+
+See [server](server/README.md) and [training](training/README.md). 
+
+## Installation
 
 **Prerequisities:** For the use of of program required services are: morphodita, korektor
 
@@ -38,10 +42,6 @@ Than all services should be started with `run.sh` script.
 . vendor/korektor/run.sh 8080
 . vendor/morphodita/run.sh 8080
 ```
-
-### Development
-
-See [server](server/README.md) and [training](training/README.md). 
 
 ## Poznámky (cs)
 

@@ -1,18 +1,13 @@
 import pickle
 
 import numpy as np
-
-from labeler._preproccessor import RootsPreprocessor, Preprocessor
 import pandas as pd
 
-MODELS_PATH = 'model/'
-NON_POLITIC_MODEL_PATH = MODELS_PATH + 'non_pol.model'
-NON_POLITIC_COLUMNS_PATH = MODELS_PATH + 'non_pol_columns'
-POLITIC_MODEL_PATH = MODELS_PATH + 'pol.model'
-POLITIC_COLUMNS_PATH = MODELS_PATH + 'pol_columns'
+from labeler._preproccessor import RootsPreprocessor, Preprocessor
 
 
 class Labeler:
+    
     def __init__(self, model, columns, preprocessor: Preprocessor):
         self.model = model
         self.columns = columns
@@ -43,13 +38,12 @@ class Labeler:
         return model, columns
 
     @staticmethod
-    def get_non_politic_labeler(korektor_host: str, korektor_port: str | int,
-                                morphodita_host: str, morphodita_port: str | int):
-        return Labeler(*Labeler._load_model(NON_POLITIC_MODEL_PATH, NON_POLITIC_COLUMNS_PATH),
-                       RootsPreprocessor(korektor_host, korektor_port, morphodita_host, morphodita_port))
+    def get_non_politic_labeler(korektor_url, morphodita_url, model_paths: tuple[str, str]):
+        return Labeler(
+            *Labeler._load_model(model_paths[0], model_paths[1]),
+                       RootsPreprocessor(korektor_url, morphodita_url))
 
     @staticmethod
-    def get_politic_labeler(korektor_host: str, korektor_port: str | int,
-                            morphodita_host: str, morphodita_port: str | int):
-        return Labeler(*Labeler._load_model(POLITIC_MODEL_PATH, POLITIC_COLUMNS_PATH),
-                       RootsPreprocessor(korektor_host, korektor_port, morphodita_host, morphodita_port))
+    def get_politic_labeler(korektor_url, morphodita_url, model_paths: tuple[str, str]):
+        return Labeler(*Labeler._load_model(model_paths[0], model_paths[1]),
+                       RootsPreprocessor(korektor_url, morphodita_url))

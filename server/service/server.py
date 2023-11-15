@@ -23,7 +23,11 @@ def create_app(config=None):
     """
     Create and configure Flask application.
     """
-    app = flask.Flask(f"{__name__}")
+    app = flask.Flask(
+        f"{__name__}",
+        static_url_path='', 
+        static_folder='data/model',
+        )
 
     # Register blueprintes (routers).
     app.register_blueprint(blueprint=main_bp, url_prefix="/")

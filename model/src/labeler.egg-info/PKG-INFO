@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: labeler
-Version: 0.10.0
+Version: 0.11.0
 Requires-Dist: pandas
 Requires-Dist: pandarallel
 Requires-Dist: requests

@@ -12,7 +12,7 @@ pandarallel.initialize()
 zkratky = {'zast': 'zastupitel', 'kand': 'kandidát', 'posl': 'poslanec'}
 MAIN_SEPARATOR = ';'
 INTERPUNCTION_MARKS = '",.;:_!?(){}-'
-STOPWORDS_FILE = 'data/stopwords-cs.json'
+STOPWORDS_FILE = '../data/stopwords-cs.json'
 POLITICAL_PARTIES = ['ods', 'kdu', 'čsl', 'čssd', 'ano', 'piráti', 'stan', 'ksčm', 'spd', 'top 09', 'ano 2011']
 
 
@@ -105,7 +105,7 @@ def get_roots(column: pd.Series, service_url: str) -> pd.Series:
 
 
 def get_lemmas(column: pd.Series, service_url: str) -> pd.Series:
-    return column.parallel_apply(get_lemma, args=(service_url))
+    return column.parallel_apply(lambda row: get_lemma(row, service_url))
 
 
 class Preprocessor(Protocol):
@@ -120,13 +120,14 @@ class _BasePreprocessor:
     def fit(self, column: pd.Series):
         # Just to fill the interface.
         return
-    
-    def _correct_grammar(self, column: pd.Series, service_url: str) -> pd.Series:        
+
+    @staticmethod
+    def _correct_grammar(column: pd.Series, service_url: str) -> pd.Series:
         
         def _correct_word(word: str, service_url: str) -> str:
             return requests.get(f'{service_url}/correct?data={word}').json()['result']
         
-        return column.parallel_apply(lambda row: [self._correct_word(word, service_url) for word in row])
+        return column.parallel_apply(lambda row: [_correct_word(word, service_url) for word in row])
 
     def transform(self, column: pd.Series) -> pd.Series:
         column = remove_interpunctions(column)
@@ -155,6 +156,18 @@ class RootsPreprocessor(_BasePreprocessor):
     def transform(self, column: pd.Series) -> pd.Series:
         column = super().transform(column)
         return get_roots(column, service_url=self.morphodita_url)
+
+    @staticmethod
+    def _get_roots(column: pd.Series, service_url) -> pd.Series:
+        def _get_row_roots(row: list, service_url: str) -> list:
+            if len(row) == 0:
+                return row
+            words = " ".join(row)
+            url = f'{service_url}/analyze?data={words}&derivation=root&output=vertical&convert_tagset=strip_lemma_id'
+            response = requests.get(url)
+            return [x.split('\t')[1] for x in response.json()['result'].split('\n') if len(x) != 0]
+
+        return column.parallel_apply(lambda row: _get_row_roots(row, service_url))
 
 
 class LemmaPreprocessor(_BasePreprocessor):

@@ -5,13 +5,13 @@ několik bash scriptů, ty jsou momentálně relevantní pouze pro používání
 soboru *preprocessing.ipynb*, kde je potřeba zapnout několik rest
 serverů. Initializace vypadá následovně:
 
-1.  Nainstalujte si potřebné balícky pythonu (vše v requirements.txt +
+1. Nainstalujte si potřebné balícky pythonu (vše v requirements.txt +
     jupyter)
-2.  použijte *bash build.sh* pro sestavení rest server executable a
+2. použijte *bash build.sh* pro sestavení rest server executable a
     jejich modelů
-3.  použijte *bash morphodita.sh* a *sudo bash korektor.sh* (korektor
+3. použijte *bash morphodita.sh* a *sudo bash korektor.sh* (korektor
     vyžaduje superuser privilegia, jinak se nedokáže spustit)
-4.  Zapněte jupyter notebook proccessing.ipynb
+4. Zapněte jupyter notebook proccessing.ipynb
 
 ## Preproccessing
 
@@ -31,26 +31,26 @@ i slova s podobným významem.
 Ostatní kroky slouží hlavně k tomu, aby data co tyto dvě funkce
 dostávají, bylo jima dobře použitelná, celá pipelina vypadá takto:
 
-1.  lower: zmenší všechen text na formát malého písma. Tohle bredevším
+1. lower: zmenší všechen text na formát malého písma. Tohle bredevším
     slouží pro sjednocenní slov, které byly zadány jinak pouze podle
     velikosti písma
-2.  remove_interpuctions: odstraní všechna interpunkční znaménka a
+2. remove_interpuctions: odstraní všechna interpunkční znaménka a
     nahradí je jedním separatórem
-3.  split_into_words: rozdělí záznamy jednotlivých osob na oddělená
+3. split_into_words: rozdělí záznamy jednotlivých osob na oddělená
     slova dle seperátoru
-4.  remove_empty: odstránní prázdné záznamy, způsobeny například
+4. remove_empty: odstránní prázdné záznamy, způsobeny například
     existencí dvou separátorů vedle sebe
-5.  unify_parties: nahradí všechna označení politické príslušnosti
+5. unify_parties: nahradí všechna označení politické príslušnosti
     slovem strana
-6.  remove_shortened_words: nahradí zkratky často opakované v datech,
+6. remove_shortened_words: nahradí zkratky často opakované v datech,
     jejich celými označeními
-7.   remove_numbers: odstraní všechny položky obsahující čísla
-8.   correct_grammar: opraví gramatické chyby v datech
-9.   lower_l: zase zmenší velká písmená na malá, jelikož correct_grammer
+7. remove_numbers: odstraní všechny položky obsahující čísla
+8. correct_grammar: opraví gramatické chyby v datech
+9. lower_l: zase zmenší velká písmená na malá, jelikož correct_grammer
     opravuje i problémy týkající se velikosti písma
-10.  remove_stop_words: odstraní stop_words, tedy slova s minimální
+10. remove_stop_words: odstraní stop_words, tedy slova s minimální
     přidanou hodnotou, co se informace týče
-11. *get_roots: *za pomocí morfologických pravidel uřčí původní kořen
+11. *get_roots:*za pomocí morfologických pravidel uřčí původní kořen
     předka slova, tento krok je ten hlavní krok pro redukci
     dimensionality, a extrémně redukuje počty unikátních slov
 

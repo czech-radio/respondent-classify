@@ -1,2 +1,0 @@
-[console_scripts]
-labeler-server = labeler_server.__init__:main

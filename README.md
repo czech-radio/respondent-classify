@@ -1,47 +1,46 @@
 # respondent-classifier
 
-**A REST service to classify respondents.**
+**A REST service to classify respondents based on their labels.**
 
-- labeler: The library to train machine learning model for classification.
-- server: The web application to serve trained model over HTTP REST API.
+The register contains people who do not have one of the approximately 50 standardized labels assigned to them. On the basis of non-standardized labels, we want to assign one of the *standardized labels* to such persons.
 
-## Installation
+## Overview
 
-[[How to install project.]]
+This is a monorepository which consists of these parts:
 
-## Usage
-
-[[How use project.]]
-Firstly services in folder service must be built if you are running them for the first time.
-```
-cd [SERVICE_PATH]
-.build.sh
-```
-for example:
-```
-cd service/morphodita
-.build.sh
-```
-
-And than all services should be run with the usage of run.sh script.
-
-```
-[SERVICE_PATH]/run.sh [PORT]
-```
-
-For example:
-```
-./services/korektor/run.sh 8080
-```
-
-For the use of of program required services are: morphodita, korektor
+|directory|description|
+|----|-------|
+|model| Train machine learning model.
+|server| Serve model over HTTP REST.
+|vendor| The third party software HTTP REST services.
 
 ### Development
 
-[[How to prepare project for development.]]
+See [server](server/README.md) and [training](training/README.md). 
+
+## Installation
+
+**Prerequisities:** For the use of of program required services are: morphodita, korektor
+
+At first, external services in the `vendor` directory must be built before you are running them for the first time.
 
 ```shell
-python -m pip install -r requirements.txt
+cd vendor/morphodita 
+source build.sh
+cd -
+```
+
+```shell
+cd vendor/korektor 
+source build.sh
+cd -
+```
+
+Than all services should be started with `run.sh` script.
+
+```shell
+. vendor/korektor/run.sh 8080
+. vendor/morphodita/run.sh 8080
 ```
 
 ## Poznámky (cs)

@@ -33,5 +33,5 @@ FLASK_DEBUG=True
 Run the server with debugging turned on.
 
 ```shell
-flask --app server run -p 8081
+flask run -p 8081
 ```

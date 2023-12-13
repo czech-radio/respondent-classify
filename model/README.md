@@ -15,6 +15,12 @@ advokát', 'akademik', 'aktivista', 'blogger', 'byznys',
 
 ## Instalace
 
+### Instalace pro použití
+```shell
+pip install -e .
+```
+
+### Instalace pro vývoj
 ```shell
 pip install -r requirements.txt
 ```

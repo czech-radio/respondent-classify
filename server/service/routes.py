@@ -1,11 +1,22 @@
+import json
+
 from flask import Blueprint, request, render_template
 
 import sys
 
 __all__ = "main_bp"
 
+with open('../data/model/pol_labels.json', 'r') as f:
+    POL_LABELS = json.load(f)
 
-def label_data(data: list, is_politic: bool):
+with open('../data/model/non_pol_labels.json', 'r') as f:
+    NON_POL_LABELS = json.load(f)
+
+if POL_LABELS is None or NON_POL_LABELS is None:
+    print("Labeling couldn't be loaded, exiting.")
+    exit(1)
+
+def label_data(data: list, is_politic: bool) -> str:
     from labeler import Labeler
 
     KOREKTOR_URL = "http://localhost:8000"
@@ -13,12 +24,19 @@ def label_data(data: list, is_politic: bool):
 
     if is_politic:
         labeler = Labeler.get_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
-                                              model_paths=("data/model/pol.model", "data/model/pol_columns"))
+                                              model_paths=("../data/model/pol.model", "../data/model/pol_columns"))
     else:
         labeler = Labeler.get_non_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
                                                   model_paths=(
-                                                  "data/model/non_pol.model", "data/model/non_pol_columns"))
-    return labeler.label(data)
+                                                  "../data/model/non_pol.model", "../data/model/non_pol_columns"))
+    label = str(labeler.label(data))
+
+    if is_politic:
+        label_name = POL_LABELS[label]
+    else:
+        label_name = NON_POL_LABELS[label]
+
+    return label_name
 
 
 main_bp = Blueprint(
@@ -57,4 +75,4 @@ def classify():
 
     print(labels, politician, file=sys.stderr)
 
-    return str(label_data(labels, bool(politician)))
+    return label_data(labels, politician)

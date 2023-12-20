@@ -4,6 +4,7 @@ import json
 import requests
 from typing import Protocol
 from pandarallel import pandarallel
+from importlib.resources import files
 
 __all__ = ["RootsPreprocessor", "LemmaPreprocessor", "Preprocessor"]
 
@@ -12,7 +13,9 @@ pandarallel.initialize()
 zkratky = {'zast': 'zastupitel', 'kand': 'kandidát', 'posl': 'poslanec'}
 MAIN_SEPARATOR = ';'
 INTERPUNCTION_MARKS = '",.;:_!?(){}-'
-STOPWORDS_FILE = 'data/stopwords-cs.json'
+STOPWORDS_FILE = files('labeler.data').joinpath('stopwords-cs.json').read_text()
+STOPWORDS_FILE = json.loads(STOPWORDS_FILE)
+
 POLITICAL_PARTIES = ['ods', 'kdu', 'čsl', 'čssd', 'ano', 'piráti', 'stan', 'ksčm', 'spd', 'top 09', 'ano 2011']
 
 
@@ -52,10 +55,8 @@ def split_into_words(column: pd.Series, sep=' ') -> pd.Series:
     return column.str.split(sep)
 
 
-def remove_stop_words(column: pd.Series, filename: str = STOPWORDS_FILE) -> pd.Series:
-    with open(filename, 'r') as fd:
-        stop_words = json.load(fd)
-        return column.apply(lambda words: [word for word in words if word not in stop_words])
+def remove_stop_words(column: pd.Series, stopwords: list[str] = STOPWORDS_FILE) -> pd.Series:
+    return column.apply(lambda words: [word for word in words if word not in stopwords])
 
 
 def remove_empty(column: pd.Series) -> pd.Series:
@@ -82,6 +83,7 @@ def lower_l(column: pd.Series) -> pd.Series:
 
 # Morphodita helper functions
 
+
 def get_lemma(row: list, service_url: str) -> list:
     if len(row) == 0:
         return row
@@ -101,7 +103,7 @@ def get_row_roots(row: list, service_url: str) -> list:
 
 
 def get_roots(column: pd.Series, service_url: str) -> pd.Series:
-    return column.parallel_apply(lambda row : get_row_roots(row, service_url))
+    return column.parallel_apply(lambda row: get_row_roots(row, service_url))
 
 
 def get_lemmas(column: pd.Series, service_url: str) -> pd.Series:
@@ -143,9 +145,11 @@ class _BasePreprocessor:
         return column
 
     def fit_transform(self, column: pd.Series):
-        self.fit()
+        self.fit(column)
         return self.transform(column)
 
+    def predict(self, column: pd.Series) -> pd.Series:
+        return self.transform(column)
 
 class RootsPreprocessor(_BasePreprocessor):
     """Base class for morphodita based prepreprocesing, for example Roots or Lemmas"""
@@ -179,4 +183,3 @@ class LemmaPreprocessor(_BasePreprocessor):
     def transform(self, column: pd.Series) -> pd.Series:
         column = super().transform(column)
         return get_lemmas(column, service_url=self.morphodita_url)
-

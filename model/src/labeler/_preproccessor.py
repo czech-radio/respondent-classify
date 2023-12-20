@@ -12,7 +12,9 @@ pandarallel.initialize()
 zkratky = {'zast': 'zastupitel', 'kand': 'kandidát', 'posl': 'poslanec'}
 MAIN_SEPARATOR = ';'
 INTERPUNCTION_MARKS = '",.;:_!?(){}-'
-STOPWORDS_FILE = 'data/stopwords-cs.json'
+STOPWORDS_FILE = '../data/stopwords-cs.json'
+STOPWARDS_FILE = None
+
 POLITICAL_PARTIES = ['ods', 'kdu', 'čsl', 'čssd', 'ano', 'piráti', 'stan', 'ksčm', 'spd', 'top 09', 'ano 2011']
 
 

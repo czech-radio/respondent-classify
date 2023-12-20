@@ -143,9 +143,11 @@ class _BasePreprocessor:
         return column
 
     def fit_transform(self, column: pd.Series):
-        self.fit()
+        self.fit(column)
         return self.transform(column)
 
+    def predict(self, column: pd.Series) -> pd.Series:
+        return self.transform(column)
 
 class RootsPreprocessor(_BasePreprocessor):
     """Base class for morphodita based prepreprocesing, for example Roots or Lemmas"""

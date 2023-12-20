@@ -3,3 +3,4 @@ pandarallel
 matplotlib
 scikit-learn
 requests
+jupyter

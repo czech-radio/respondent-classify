@@ -20,7 +20,7 @@ See [server](server/README.md) and [training](training/README.md).
 
 ## Installation
 
-**Prerequisities:** For the use of of program required services are: morphodita, korektor
+**Prerequisities:** required services are: morphodita, korektor
 
 At first, external services in the `vendor` directory must be built before you are running them for the first time.
 

@@ -6,10 +6,10 @@ import sys
 
 __all__ = "main_bp"
 
-with open('../data/model/pol_labels.json', 'r') as f:
+with open('data/model/pol_labels.json', 'r') as f:
     POL_LABELS = json.load(f)
 
-with open('../data/model/non_pol_labels.json', 'r') as f:
+with open('data/model/non_pol_labels.json', 'r') as f:
     NON_POL_LABELS = json.load(f)
 
 if POL_LABELS is None or NON_POL_LABELS is None:
@@ -24,11 +24,11 @@ def label_data(data: str, is_politic: bool) -> str:
 
     if is_politic:
         labeler = Labeler.get_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
-                                              model_paths=("../data/model/pol.model", "../data/model/pol_columns"))
+                                              model_paths=("data/model/pol.model", "data/model/pol_columns"))
     else:
         labeler = Labeler.get_non_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
                                                   model_paths=(
-                                                  "../data/model/non_pol.model", "../data/model/non_pol_columns"))
+                                                  "data/model/non_pol.model", "data/model/non_pol_columns"))
     label = str(labeler.label(data))
 
     if is_politic:

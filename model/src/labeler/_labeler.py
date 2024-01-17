@@ -13,7 +13,7 @@ class Labeler:
         self.columns = columns
         self.preprocessor = preprocessor
 
-    def label(self, words: list) -> int:
+    def label(self, words: str) -> int:
         words = pd.Series(words)
         words = self.preprocessor.transform(words)
         words = words[0]

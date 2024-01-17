@@ -16,7 +16,7 @@ if POL_LABELS is None or NON_POL_LABELS is None:
     print("Labeling couldn't be loaded, exiting.")
     exit(1)
 
-def label_data(data: list, is_politic: bool) -> str:
+def label_data(data: str, is_politic: bool) -> str:
     from labeler import Labeler
 
     KOREKTOR_URL = "http://localhost:8000"
@@ -50,7 +50,7 @@ def index():
     if request.method == "POST":
         labels_maybe = request.form.get("labels")
         if labels_maybe is not None:
-            labels = [x.strip() for x in labels_maybe.split(",")]
+            labels = labels_maybe
 
     return render_template("index.html", result=labels)
 
@@ -67,9 +67,8 @@ def status():
 
 @main_bp.get("/classify")
 def classify():
-    labels = [
-        x.strip() for x in request.args.get("labels", type=str, default="").split(",")
-    ]
+    # labels can be in either natural text or list of terms, preproccessor should be able to deal with both
+    labels = request.args.get("labels", type=str, default="")
 
     politician = bool(request.args.get("politician", type=int, default=0))
 

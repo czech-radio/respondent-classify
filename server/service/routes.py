@@ -1,8 +1,12 @@
 import json
 
 from flask import Blueprint, request, render_template
+import os
 
 import sys
+
+KOREKTOR_URL = f'http://{os.environ.get("KOREKTOR_HOST")}:{os.environ.get("KOREKTOR_PORT")}'
+MORPHODITA_URL = f'http://{os.environ.get("MORPHODITA_HOST")}:{os.environ.get("MORPHODITA_PORT")}'
 
 __all__ = "main_bp"
 
@@ -16,11 +20,9 @@ if POL_LABELS is None or NON_POL_LABELS is None:
     print("Labeling couldn't be loaded, exiting.")
     exit(1)
 
+
 def label_data(data: str, is_politic: bool) -> str:
     from labeler import Labeler
-
-    KOREKTOR_URL = "http://korektor:8000"
-    MORPHODITA_URL = "http://morphodita:3000"
 
     if is_politic:
         labeler = Labeler.get_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
@@ -28,7 +30,7 @@ def label_data(data: str, is_politic: bool) -> str:
     else:
         labeler = Labeler.get_non_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
                                                   model_paths=(
-                                                  "data/model/non_pol.model", "data/model/non_pol_columns"))
+                                                      "data/model/non_pol.model", "data/model/non_pol_columns"))
     label = str(labeler.label(data))
 
     if is_politic:

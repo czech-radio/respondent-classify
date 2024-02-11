@@ -48,13 +48,17 @@ main_bp = Blueprint(
 
 @main_bp.route("/", methods=["POST", "GET"])
 def index():
-    labels = None
+    labels = ''
+    is_politician = False
     if request.method == "POST":
         labels_maybe = request.form.get("labels")
+        is_politician = True if request.form.get("is_politician") else False
+        print(is_politician)
         if labels_maybe is not None:
             labels = labels_maybe
 
-    return render_template("index.html", result=labels)
+    label = label_data(labels, is_politician)
+    return render_template("index.html", result=labels, outputted=label)
 
 
 @main_bp.get("/status")

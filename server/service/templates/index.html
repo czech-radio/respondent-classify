@@ -58,10 +58,13 @@
         <form method="post">
             <input type="text" name="labels" placeholder="architekt, senátor,&hellip;">
             <input type="submit" size=120 />
+            <label>Politician</label>
+            <input type="checkbox" name="is_politician"/>
         </form>
         <div>
             <p>
-                Pro štítky <span id="input-value">{{ result|d('', true) }}</span> klasifikuji jako [[&hellip;]]
+                Pro štítky <span id="input-value">{{ result|d('', true) }}</span> klasifikuji jako
+                [[<span id="output-value">{{ outputted|d('...', true) }}</span>]]
             </p>
         </div>
     </main>

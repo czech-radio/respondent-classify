@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir build && cd build || exit
-git clone git@github.com:ufal/morphodita.git
+git clone https://github.com/ufal/morphodita.git
 cd morphodita/src || exit
 make server
 mv rest_server/morphodita_server ../../..

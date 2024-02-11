@@ -1,8 +1,12 @@
 import json
 
 from flask import Blueprint, request, render_template
+import os
 
 import sys
+
+KOREKTOR_URL = f'http://{os.environ.get("KOREKTOR_HOST")}:{os.environ.get("KOREKTOR_PORT")}'
+MORPHODITA_URL = f'http://{os.environ.get("MORPHODITA_HOST")}:{os.environ.get("MORPHODITA_PORT")}'
 
 __all__ = "main_bp"
 
@@ -16,11 +20,9 @@ if POL_LABELS is None or NON_POL_LABELS is None:
     print("Labeling couldn't be loaded, exiting.")
     exit(1)
 
+
 def label_data(data: str, is_politic: bool) -> str:
     from labeler import Labeler
-
-    KOREKTOR_URL = "http://localhost:8000"
-    MORPHODITA_URL = "http://localhost:3000"
 
     if is_politic:
         labeler = Labeler.get_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
@@ -28,7 +30,7 @@ def label_data(data: str, is_politic: bool) -> str:
     else:
         labeler = Labeler.get_non_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,
                                                   model_paths=(
-                                                  "data/model/non_pol.model", "data/model/non_pol_columns"))
+                                                      "data/model/non_pol.model", "data/model/non_pol_columns"))
     label = str(labeler.label(data))
 
     if is_politic:
@@ -46,13 +48,17 @@ main_bp = Blueprint(
 
 @main_bp.route("/", methods=["POST", "GET"])
 def index():
-    labels = None
+    labels = ''
+    is_politician = False
     if request.method == "POST":
         labels_maybe = request.form.get("labels")
+        is_politician = True if request.form.get("is_politician") else False
+        print(is_politician)
         if labels_maybe is not None:
             labels = labels_maybe
 
-    return render_template("index.html", result=labels)
+    label = label_data(labels, is_politician)
+    return render_template("index.html", result=labels, outputted=label)
 
 
 @main_bp.get("/status")

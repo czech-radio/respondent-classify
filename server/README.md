@@ -35,3 +35,9 @@ Run the server with debugging turned on.
 ```shell
 flask run -p 8081
 ```
+
+
+### Warnings
+This server expects descriptions to be like a list of **natural language descriptions** in the same way
+people are described in the database. Trying to manually enter description words (architekt, herec, ...)
+will lead to **useless** output.

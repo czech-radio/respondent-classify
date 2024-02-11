@@ -19,8 +19,8 @@ if POL_LABELS is None or NON_POL_LABELS is None:
 def label_data(data: str, is_politic: bool) -> str:
     from labeler import Labeler
 
-    KOREKTOR_URL = "http://localhost:8000"
-    MORPHODITA_URL = "http://localhost:3000"
+    KOREKTOR_URL = "http://korektor:8000"
+    MORPHODITA_URL = "http://morphodita:3000"
 
     if is_politic:
         labeler = Labeler.get_politic_labeler(KOREKTOR_URL, MORPHODITA_URL,

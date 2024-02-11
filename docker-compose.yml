@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  server:
+    image: labeler
+    ports:
+      - 8081:8081
+  morphodita:
+    image: morphodita
+    ports:
+      - 3000:3000
+  korektor:
+    image: korektor
+    ports:
+      - 8000:8000
